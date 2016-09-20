@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>My first Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 90%; height: 90% }
+		</style>
+	</head>
+	<body>
+		<input type=button value="<">
+		<input type=button value=">">
+		
+		<script src="js/three.min.js"></script>
+		<script>
+			// Our Javascript will go here.
+			var scene = new THREE.Scene();
+			// Se añade la cuadricula de ayuda a la escena (N recuadros, tamaño del recuadro):
+			scene.add( new THREE.GridHelper( 10, 1 ) );
+			
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+			//var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000 );
+			
+			//Se posiciona la camara en la scena:
+			camera.position.set( 0, 10, 20 );
+			//camera.position.z = 4;
+			//camera.position.y = 0;
+			//camera.position.x = 0;
+			
+			//Se modifica el angulo de la camara:
+			camera.lookAt( new THREE.Vector3( 0, 5, 0 ) );
+			
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var geometry = new THREE.BoxGeometry( 10, 10, 10 );
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+			var cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+			
+			var geometry = new THREE.BoxGeometry( 10, 1, 10 );
+			var material = new THREE.MeshBasicMaterial( { color: 0xf0ff00, wireframe: true } );
+			var cube2 = new THREE.Mesh( geometry, material );
+			scene.add( cube2 );
+			
+			cube2.translateY(-5);
+
+			cube.add(cube2);
+			
+			cube.translateZ(-5);
+			
+			//cube.rotation.x += 0.45;
+			//cube.rotation.y += 0.45;
+			//cube2.rotation.x += 0.45; //cube2.rotation.x;
+			//cube2.rotation.y += 0.45; //cube2.rotation.y;
+			
+
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				render();
+			}
+
+			var render = function () {
+				requestAnimationFrame( render );
+
+				//cube.rotation.x += 0.1;
+				//cube.rotation.y += 0.1;
+
+				renderer.render(scene, camera);
+			};
+
+			render();
+			
+		</script>
+	</body>
+</html>
